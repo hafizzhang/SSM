@@ -6,7 +6,7 @@
 
     <!-- 全局配置setting,根据需要进行配置 -->
     <!--<settings>
-        <setting name="" value=""/>
+        <setting name="logImpl" value="SLF4J"/>
     </settings>-->
 
     <!-- 设置别名 -->

@@ -12,7 +12,7 @@
 			对mybatis操作数据库进行事务控制，spring使用jdbc的事务控制类
 		 -->
 		 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		 	<!-- dataSource在applicationContext-dao.xml中进行了配置 -->
+		 	<!-- dataSource在spring-dao.xml中进行了配置 -->
 		 	<property name="dataSource" ref="dataSource"></property>
 		 </bean>
 		 
