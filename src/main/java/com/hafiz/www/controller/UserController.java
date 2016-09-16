@@ -2,8 +2,12 @@ package com.hafiz.www.controller;
 
 import com.hafiz.www.po.UserEntity;
 import com.hafiz.www.service.UserService;
+import com.hafiz.www.util.PropertyConfigurer;
+import com.hafiz.www.util.PropertyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,21 +1,70 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 		
-	<!-- 加载配置文件jdbc.properties中的内容，jdbc.properties中key的命名要有一定的特殊规则 -->
-	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 第一种方式：通过context:property-placeholder加载配置文件jdbc.properties中的内容，
+		 jdbc.properties中key的命名要有一定的特殊规则 -->
+	<context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
+
+	<!-- 第二种方式是使用注解的方式注入，主要用在java代码中使用注解注入properties文件中相应的value值 -->
+	<bean id="prop" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<!-- 这里是PropertiesFactoryBean类，它也有个locations属性，也是接收一个数组，跟上面一样 -->
+		<property name="locations">
+			<array>
+				<value>classpath:jdbc.properties</value>
+			</array>
+		</property>
+	</bean>
+
+	<!--第三种方式是适用util:properties标签进行暴露properties文件中的内容-->
+	<util:properties id="propertiesReader" location="classpath:jdbc.properties"/>
+
+	<!--第四种方式：通过PropertyPlaceholderConfigurer在加载上下文的时候暴露properties到自定义子类的属性中以供程序中使用-->
+	<bean id="propertyConfigurer" class="com.hafiz.www.util.PropertyConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- 配置数据源,数据库连接池 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<!--数据库驱动-->
 		<property name="driverClassName" value="${jdbc.driver}"/>
+		<!--数据库链接地址-->
 		<property name="url" value="${jdbc.url}"/>
+		<!--数据库用户名-->
 		<property name="username" value="${jdbc.username}"/>
+		<!--数据库连接密码-->
 		<property name="password" value="${jdbc.password}"/>
-		<property name="maxActive" value="${jdbc.maxActive}"/>
+		<!--连接池初始化大小-->
+		<property name="initialSize" value="${jdbc.initialSize}"/>
+		<!--连接池最小数量-->
 		<property name="minIdle" value="${jdbc.minIdle}" />
+		<!--连接池最大数量-->
+		<property name="maxActive" value="${jdbc.maxActive}"/>
+		<!--连接池等待超时时间-->
+		<property name="maxWait" value="${jdbc.maxWait}"/>
+		<!--配置间隔多久才进行一次检测，检测需要关闭空闲连接,单位是毫秒-->
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}"/>
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}"/>
+		<property name="validationQuery" value="${jdbc.validationQuery}"/>
+		<property name="testOnReturn" value="${jdbc.testOnReturn}"/>
+		<!--打开PSCache,并且制定每个连接上PSCache的大小-->
+		<property name="poolPreparedStatements" value="${jdbc.poolPreparedStatements}"/>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="${jdbc.maxPoolPreparedStatementPerConnectionSize}"/>
+		<!--配置监控统计拦截的filters-->
+		<property name="filters" value="${jdbc.filters}"/>
 	</bean>
 	
 	<!-- 配置sqlSessionFactory交由spring进行管理 -->

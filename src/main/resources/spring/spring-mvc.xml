@@ -1,13 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-	
+
 	<!-- 配置视图解析器
 		解析jsp视图，默认使用jstl标签，classpath下得有jstl包
 	 -->
@@ -32,9 +32,9 @@
 	
 	<!-- 扫描mvc注解驱动，如：@RequestMapping, @Controller,@RequestBody,@ResponseBody.... -->
 	<mvc:annotation-driven />
-	
+
 	<!-- 配置组件扫描，springmvc容器中只扫描Controller注解 -->
-	<context:component-scan base-package="com.hafiz.www">
+	<context:component-scan base-package="com.hafiz.www" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	

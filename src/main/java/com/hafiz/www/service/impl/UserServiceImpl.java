@@ -4,6 +4,7 @@ import com.hafiz.www.mapper.UserEntityMapper;
 import com.hafiz.www.po.UserEntity;
 import com.hafiz.www.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
