@@ -22,7 +22,7 @@
 		</property>
 	</bean>
 
-	<!--第三种方式是适用util:properties标签进行暴露properties文件中的内容-->
+	<!--第三种方式是使用util:properties标签进行暴露properties文件中的内容-->
 	<util:properties id="propertiesReader" location="classpath:jdbc.properties"/>
 
 	<!--第四种方式：通过PropertyPlaceholderConfigurer在加载上下文的时候暴露properties到自定义子类的属性中以供程序中使用-->

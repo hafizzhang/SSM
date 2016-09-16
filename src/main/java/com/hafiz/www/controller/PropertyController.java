@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Desc:
+ * Desc:properties测试控制器
  * Created by hafiz.zhang on 2016/9/16.
  */
 @Controller
