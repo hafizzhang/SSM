@@ -6,9 +6,9 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<bean id="firstCron" class="com.hafiz.www.cron.FirstCron"/>
+	<!--简单来说，我们只需要<task:annotation-driven/>这一句即可，这些参数不是必须的-->
 	<task:scheduler id="qbScheduler" pool-size="10"/>
 	<task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
-	简单来说，我们只需要<task:annotation-driven/>这一句即可，这些参数不是必须的
 
 	<!--<task:scheduled-tasks>
 		<task:scheduled ref="firstCron" method="cron" cron="0/5 * * * * ?"/>
