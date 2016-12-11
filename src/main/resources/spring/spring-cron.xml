@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="firstCron" class="com.hafiz.www.cron.FirstCron"/>
+	<task:scheduler id="qbScheduler" pool-size="10"/>
+	<task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+	简单来说，我们只需要<task:annotation-driven/>这一句即可，这些参数不是必须的
+
+	<!--<task:scheduled-tasks>
+		<task:scheduled ref="firstCron" method="cron" cron="0/5 * * * * ?"/>
+	</task:scheduled-tasks>-->
+
+	<bean name="secondCron" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.hafiz.www.cron.SecondCron"/>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="0"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="thirdCron" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<bean class="com.hafiz.www.cron.ThirdCron"/>
+		</property>
+		<property name="targetMethod" value="executeJob"/>
+		<!--作业不并发调度-->
+		<property name="concurrent" value="false"/>
+	</bean>
+
+	<!--按照一定频率的触发器-->
+	<!--<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="secondCron"/>
+		<property name="startDelay" value="0"/>
+		<property name="repeatInterval" value="2000"/>
+	</bean>-->
+
+	<!--Cron表达式触发器-->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="secondCron"/>
+		<!--<property name="jobDetail" ref="thirdCron"/>-->
+		<property name="cronExpression" value="0/5 * * * * ?"/>
+	</bean>
+
+	<!--配置调度工厂-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!--<ref bean="simpleTrigger"/>-->
+				<ref bean="cronTrigger"/>
+			</list>
+		</property>
+	</bean>
+</beans>
