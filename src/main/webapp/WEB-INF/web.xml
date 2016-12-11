@@ -10,9 +10,13 @@
   </context-param>
 
   <!-- 配置log4j配置文件路径 -->
-  <context-param>
+  <!--<context-param>
     <param-name>log4jConfigLocation</param-name>
     <param-value>classpath:log4j.properties</param-value>
+  </context-param>-->
+  <context-param>
+    <param-name>log4jConfiguration</param-name>
+    <param-value>classpath:log4j2.xml</param-value>
   </context-param>
   <!-- 60s 检测日志配置 文件变化 -->
   <context-param>
@@ -46,9 +50,9 @@
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
   <!-- 配置Log4j监听器 -->
-  <listener>
+  <!--<listener>
     <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-  </listener>
+  </listener>-->
 
   <!-- spring mvc -->
   <servlet>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="1800">
+
+    <properties>
+        <property name="LOG_HOME">logs/log4jDemo/logs</property>
+        <property name="ERROR_LOG_FILE_NAME">error</property>
+    </properties>
+
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p (%F:%L) - %m%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="ErrorLog"
+                                 fileName="${LOG_HOME}/${ERROR_LOG_FILE_NAME}.log"
+                                 filePattern="${LOG_HOME}/${ERROR_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}.gz">
+            <PatternLayout
+                    pattern="%d %-5p (%F:%L) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- 3rdparty Loggers -->
+        <logger name="org.springframework.core" level="info">
+        </logger>
+        <logger name="org.springframework.beans" level="info">
+        </logger>
+        <logger name="org.springframework.context" level="info">
+        </logger>
+        <logger name="org.springframework.web" level="info">
+        </logger>
+
+        <logger name="com.hafiz.www.controller" level="trace" includeLocation="true" additivity="false">
+            <appender-ref ref="ErrorLog"/>
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <root level="info" includeLocation="true">
+            <appender-ref ref="Console"/>
+        </root>
+    </Loggers>
+</Configuration>
